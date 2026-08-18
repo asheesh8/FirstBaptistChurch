@@ -79,13 +79,13 @@ The building is Richardsonian Romanesque, and its defining feature is the round 
 
 **Vermont map.** Hand-drawn SVG: the state outline draws itself on arrival, Lake Champlain along the western edge, a ridge line for the Greens, and four towns with drive times. Hovering a town highlights it on the map *and* in the list, in both directions, and it is fully keyboard-navigable.
 
-Deliberately **not** generated video — a clip can't be hovered, tabbed through, or recoloured for dark mode, and would cost several MB where a vector costs kilobytes and stays sharp at any zoom.
+Deliberately **not** generated video — a clip can't be hovered, tabbed through, or restyled to match the palette, and would cost several MB where a vector costs kilobytes and stays sharp at any zoom.
 
 **Choose your pew.** Free, no account. Solves the most common first-visit anxiety — *where do I sit, and will I be in someone's seat?* — and incidentally tells the office how much coffee to make.
 
 **Giving is mocked.** Clearly labelled, no form fields, no inputs. Nothing on the page could be mistaken for collecting money.
 
-Both themes are fully designed, and all motion respects `prefers-reduced-motion`.
+The site commits to a single warm palette rather than following the viewer's system theme — the plaster, crimson and oak of the actual room, painted explicitly so the page holds on any host background. All motion respects `prefers-reduced-motion`.
 
 ---
 

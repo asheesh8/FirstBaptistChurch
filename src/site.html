@@ -18,30 +18,9 @@
   --footer-bg:#2A1712; --footer-fg:#D8C9C2; --footer-head:#F5EBE6;
   --footer-muted:#9C8880; --footer-rule:rgba(216,201,194,.22);
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --plaster:#191010; --surface:#221614; --snow:#1E242E;
-    --ink:#F2E7E2; --ink-2:#C0AAA2; --ink-3:#8E7972; --rule:#3A2723;
-    --crimson:#8E1B2E; --crimson-2:#A82238; --crimson-ink:#E28794;
-    --honey:#D9A45C; --honey-2:#C89B5A; --sky:#8FB2DE; --moss:#9CB77F;
-    --on-crimson:#FBF3EF;
-    --shadow:rgba(0,0,0,.55); --shadow-2:rgba(0,0,0,.3);
-    --header-bg:rgba(34,22,20,.88);
-  --footer-bg:#120B0A; --footer-fg:#C7B2AA; --footer-head:#F2E7E2;
-  --footer-muted:#8E7972; --footer-rule:rgba(199,178,170,.20);
-  }
-}
-:root[data-theme="dark"]{
-  --plaster:#191010; --surface:#221614; --snow:#1E242E;
-  --ink:#F2E7E2; --ink-2:#C0AAA2; --ink-3:#8E7972; --rule:#3A2723;
-  --crimson:#8E1B2E; --crimson-2:#A82238; --crimson-ink:#E28794;
-  --honey:#D9A45C; --honey-2:#C89B5A; --sky:#8FB2DE; --moss:#9CB77F;
-  --on-crimson:#FBF3EF;
-  --shadow:rgba(0,0,0,.55); --shadow-2:rgba(0,0,0,.3);
-  --header-bg:rgba(34,22,20,.88);
-  --footer-bg:#120B0A; --footer-fg:#C7B2AA; --footer-head:#F2E7E2;
-  --footer-muted:#8E7972; --footer-rule:rgba(199,178,170,.20);
-}
+/* This design commits to a single warm palette: the plaster, crimson and oak
+   of the actual room. It does not follow the viewer's system theme, so every
+   colour below is painted explicitly and the page holds on any host ground. */
 
 *{box-sizing:border-box}
 /* Elements with an explicit display (the hero is flex) ignore the UA's
