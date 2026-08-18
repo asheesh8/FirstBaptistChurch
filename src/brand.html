@@ -1,0 +1,545 @@
+<title>Sanctuary Identity</title>
+<style>
+@font-face{font-family:'Figtree';src:url(data:font/woff2;base64,__FIGTREE__) format('woff2');font-weight:300 900;font-style:normal;font-display:block;}
+@font-face{font-family:'Fraunces';src:url(data:font/woff2;base64,__FRAUNCES__) format('woff2');font-weight:100 900;font-style:normal;font-display:block;}
+
+/* -- LIGHT (complete palette on bare :root) ------------------------- */
+:root{
+  --plaster:#F3EEEC;      /* ground: old plaster, biased red not yellow */
+  --surface:#FBF8F7;
+  --snow:#E7EDF5;         /* winter-exterior surface */
+  --ink:#2A1712;          /* warm timber near-black */
+  --ink-2:#6A554D;
+  --ink-3:#938078;
+  --rule:#DED3CE;
+  --crimson:#6F1322;      /* sanctuary carpet */
+  --crimson-2:#8E1B2E;
+  --crimson-ink:#6F1322;  /* crimson used as text */
+  --honey:#8A5C22;        /* oak pews */
+  --honey-2:#C89B5A;
+  --sky:#3E6FA8;          /* Vermont winter sky */
+  --moss:#5A7440;
+  --on-crimson:#F7EDE7;
+  --shadow:rgba(42,23,18,.13);
+  --shadow-2:rgba(42,23,18,.07);
+  --lift:0 1px 0 var(--rule);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --plaster:#191010; --surface:#221614; --snow:#1E242E;
+    --ink:#F2E7E2; --ink-2:#C0AAA2; --ink-3:#8E7972;
+    --rule:#3A2723;
+    --crimson:#8E1B2E; --crimson-2:#A82238; --crimson-ink:#E28794;
+    --honey:#D9A45C; --honey-2:#C89B5A;
+    --sky:#8FB2DE; --moss:#9CB77F;
+    --on-crimson:#FBF3EF;
+    --shadow:rgba(0,0,0,.5); --shadow-2:rgba(0,0,0,.3);
+    --lift:0 1px 0 var(--rule);
+  }
+}
+:root[data-theme="dark"]{
+  --plaster:#191010; --surface:#221614; --snow:#1E242E;
+  --ink:#F2E7E2; --ink-2:#C0AAA2; --ink-3:#8E7972;
+  --rule:#3A2723;
+  --crimson:#8E1B2E; --crimson-2:#A82238; --crimson-ink:#E28794;
+  --honey:#D9A45C; --honey-2:#C89B5A;
+  --sky:#8FB2DE; --moss:#9CB77F;
+  --on-crimson:#FBF3EF;
+  --shadow:rgba(0,0,0,.5); --shadow-2:rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--plaster);color:var(--ink);
+  font-family:'Figtree',ui-sans-serif,system-ui,sans-serif;
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-optical-sizing:auto;text-wrap:balance;}
+h2{font-size:clamp(30px,4.2vw,44px);line-height:1.08;letter-spacing:-.015em;font-weight:600;margin:0 0 10px}
+h3{font-size:21px;line-height:1.25;font-weight:600;margin:0 0 6px;letter-spacing:-.01em}
+p{margin:0 0 14px;max-width:66ch}
+a{color:var(--crimson-ink)}
+.lbl{font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px}
+.lede{font-size:19px;color:var(--ink-2);max-width:60ch}
+.sm{font-size:14px;color:var(--ink-2)}
+.xs{font-size:12.5px;color:var(--ink-3);line-height:1.5}
+section{padding:76px 0;border-top:1px solid var(--rule)}
+section:first-of-type{border-top:none}
+.mono-num{font-variant-numeric:tabular-nums}
+
+/* -- THE ARCH: the structural device, from the Romanesque windows -- */
+.arch{border-radius:9999px 9999px 0 0;overflow:hidden}
+.arch-img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* -- HERO ----------------------------------------------------------- */
+.hero{padding:0 0 64px;position:relative}
+.heroband{background:var(--crimson);color:var(--on-crimson);padding:52px 0 108px;position:relative;overflow:hidden}
+.heroband::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(120% 80% at 50% 118%,rgba(200,155,90,.32),transparent 60%);
+  pointer-events:none}
+.heroband .wrap{position:relative;z-index:1}
+.heroband .lbl{color:rgba(247,237,231,.62)}
+.hero h1{
+  font-size:clamp(44px,8.4vw,92px);line-height:.96;letter-spacing:-.03em;
+  font-weight:600;margin:0 0 20px;max-width:15ch;
+  font-variation-settings:'opsz' 144;
+}
+.hero h1 em{font-style:italic;color:var(--honey-2)}
+.hero .lede{color:rgba(247,237,231,.9);max-width:52ch;font-size:20px}
+.herometa{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:26px;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,237,231,.6);font-weight:600}
+.herophoto{margin-top:-72px;position:relative;z-index:2}
+.herophoto .arch{height:min(60vh,520px);box-shadow:0 26px 60px -22px var(--shadow)}
+.cap{font-size:12.5px;color:var(--ink-3);margin-top:10px;letter-spacing:.01em}
+
+/* -- GRIDS ---------------------------------------------------------- */
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.g-side{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+@media(max-width:860px){.g2,.g3,.g4,.g-side{grid-template-columns:1fr}}
+
+/* -- FINDINGS ------------------------------------------------------- */
+.find{background:var(--surface);border:1px solid var(--rule);border-radius:4px 4px 0 0;padding:26px 24px 24px;box-shadow:0 1px 2px var(--shadow-2)}
+.find .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--crimson-ink);margin-bottom:12px}
+.find p{margin:0;font-size:15.5px;color:var(--ink-2)}
+.find p+p{margin-top:10px}
+.quote{font-family:'Fraunces',Georgia,serif;font-size:22px;line-height:1.35;color:var(--ink);font-weight:500;font-style:italic;margin:0 0 12px}
+
+/* -- LOGO ----------------------------------------------------------- */
+.markbox{background:var(--surface);border:1px solid var(--rule);display:grid;place-items:center;padding:40px 20px;min-height:190px}
+.markbox.dark{background:var(--crimson)}
+.lockup{display:flex;align-items:center;gap:16px}
+.lockup .wm{display:flex;flex-direction:column;line-height:1}
+.wm-name{font-family:'Fraunces',Georgia,serif;font-size:23px;font-weight:600;letter-spacing:-.015em;color:var(--ink)}
+.wm-sub{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-top:5px}
+.markbox.dark .wm-name{color:var(--on-crimson)}
+.markbox.dark .wm-sub{color:rgba(247,237,231,.6)}
+.sizes{display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap}
+
+/* -- SWATCHES ------------------------------------------------------- */
+.sw{border:1px solid var(--rule);background:var(--surface);overflow:hidden}
+.sw .chip{height:96px}
+.sw .meta{padding:12px 13px 14px}
+.sw .hex{font-family:'Figtree';font-size:13px;font-weight:700;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.sw .nm{font-size:13px;font-weight:600;margin-bottom:2px}
+.sw .src{font-size:11.5px;color:var(--ink-3);line-height:1.4;margin-top:5px}
+
+/* -- TYPE SPECIMEN -------------------------------------------------- */
+.spec{background:var(--surface);border:1px solid var(--rule);padding:30px 28px}
+.spec .big{font-family:'Fraunces',Georgia,serif;font-size:clamp(38px,6vw,64px);line-height:1;font-weight:600;letter-spacing:-.025em;font-variation-settings:'opsz' 144;margin:0 0 6px}
+.scale-row{display:flex;align-items:baseline;gap:18px;padding:11px 0;border-top:1px solid var(--rule)}
+.scale-row .k{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);width:112px;flex:none;font-weight:700}
+
+/* -- COMPONENTS ----------------------------------------------------- */
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Figtree';font-size:16px;font-weight:700;
+  padding:14px 26px;border-radius:999px;border:none;cursor:pointer;text-decoration:none;
+  background:var(--crimson);color:var(--on-crimson);box-shadow:0 4px 0 rgba(0,0,0,.22);
+  transition:transform .12s ease,box-shadow .12s ease}
+.btn:hover{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.22)}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 rgba(0,0,0,.22)}
+.btn.ghost{background:transparent;color:var(--crimson-ink);box-shadow:inset 0 0 0 2px var(--crimson);}
+.btn.honey{background:var(--honey);color:#fff}
+.btn:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+.card{background:var(--surface);border:1px solid var(--rule);padding:22px 22px 24px;box-shadow:0 1px 2px var(--shadow-2)}
+.card.archtop{border-radius:9999px 9999px 4px 4px;padding-top:34px}
+.ann{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-top:1px solid var(--rule)}
+.ann .when{flex:none;width:78px;text-align:center;border-right:1px solid var(--rule);padding-right:12px}
+.ann .when .d{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:600;line-height:1;color:var(--crimson-ink)}
+.ann .when .m{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-top:3px}
+.ann h4{margin:0 0 3px;font-size:16.5px;font-weight:700}
+.ann p{margin:0;font-size:14px;color:var(--ink-2)}
+
+/* -- PEW PICKER ----------------------------------------------------- */
+.pews{background:var(--surface);border:1px solid var(--rule);padding:26px 22px 24px}
+.chancel{background:var(--crimson);color:var(--on-crimson);text-align:center;font-size:11px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;padding:11px;border-radius:9999px 9999px 3px 3px;margin-bottom:20px}
+.pewrow{display:flex;gap:11px;justify-content:center;margin-bottom:9px;align-items:center}
+.pewrow .rn{font-size:10.5px;color:var(--ink-3);width:16px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.pew{flex:1;max-width:150px;height:26px;border-radius:5px;border:1.5px solid var(--honey-2);
+  background:color-mix(in srgb,var(--honey-2) 22%,transparent);cursor:pointer;transition:all .14s ease;
+  font-size:11px;font-weight:700;color:var(--ink-2);font-family:'Figtree'}
+.pew:hover{background:color-mix(in srgb,var(--honey-2) 45%,transparent);transform:translateY(-1px)}
+.pew[aria-pressed="true"]{background:var(--crimson);border-color:var(--crimson);color:var(--on-crimson)}
+.pew:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.aisle{width:26px;flex:none}
+.pewnote{text-align:center;margin-top:18px;font-size:14px;color:var(--ink-2);min-height:24px}
+.pewnote strong{color:var(--crimson-ink)}
+
+/* -- SHOT LIST / PAGES ---------------------------------------------- */
+.shot{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:18px 0;border-top:1px solid var(--rule)}
+.shot .n{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:600;color:var(--honey);line-height:1}
+.shot h4{margin:0 0 4px;font-size:16.5px;font-weight:700}
+.shot p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.shot .re{display:inline-block;margin-top:7px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--moss)}
+.page-item{border-top:1px solid var(--rule);padding:15px 0;display:flex;gap:14px;align-items:baseline}
+.page-item .slug{font-size:13px;font-weight:700;color:var(--crimson-ink);width:150px;flex:none}
+.page-item p{margin:0;font-size:14.5px;color:var(--ink-2)}
+@media(max-width:640px){.page-item{flex-direction:column;gap:3px}.page-item .slug{width:auto}}
+
+/* -- VOICE ---------------------------------------------------------- */
+.voice{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--rule)}
+.voice>div{padding:24px 22px}
+.voice .yes{background:var(--surface)}
+.voice .no{background:var(--plaster);border-left:1px solid var(--rule)}
+.voice ul{margin:0;padding-left:18px}
+.voice li{margin-bottom:9px;font-size:15px;color:var(--ink-2)}
+.voice .yes li{color:var(--ink)}
+@media(max-width:860px){.voice{grid-template-columns:1fr}.voice .no{border-left:none;border-top:1px solid var(--rule)}}
+
+.fix{display:flex;gap:13px;padding:13px 0;border-top:1px solid var(--rule);align-items:flex-start}
+.fix .dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--crimson);margin-top:9px}
+.fix p{margin:0;font-size:15px}
+.fix strong{font-weight:700}
+
+footer{padding:44px 0 60px;border-top:1px solid var(--rule);color:var(--ink-3);font-size:13.5px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="heroband">
+  <div class="wrap">
+    <p class="lbl">First Congregational Church &middot; Saint Albans, Vermont &middot; Identity Direction</p>
+    <h1>Seekers, believers,<br>and <em>doubters.</em></h1>
+    <p class="lede">A brand for a 133-year-old church that plays 90s pop songs on an 1893 pipe organ &mdash; and means it when it says everyone is welcome.</p>
+    <div class="herometa">
+      <span>Direction &mdash; Sanctuary</span>
+      <span>Mark &mdash; The Clock Tower</span>
+      <span>18 August 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap hero">
+  <div class="herophoto">
+    <div class="arch"><img class="arch-img" src="data:image/jpeg;base64,__IMG_WINTER__" alt="The church tower in winter, red brick against a deep blue Vermont sky"></div>
+    <p class="cap">The strongest asset they already own. Red brick against a Vermont winter sky &mdash; this photograph is the entire palette in one frame.</p>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <p class="lbl">01 &mdash; What the research turned up</p>
+  <h2>Four things worth building on</h2>
+  <p class="lede" style="margin-bottom:34px">Pulled from their website, their newsletter, and their Facebook. Every quote below is theirs, not written for them.</p>
+  <div class="g2">
+    <div class="find">
+      <span class="tag">The line they buried</span>
+      <p class="quote">&ldquo;A welcoming community of seekers, believers, and doubters.&rdquo;</p>
+      <p>That sentence is on their Facebook bio. Their actual homepage opens with UCC boilerplate used by thousands of congregations. <strong>Doubters</strong> is the word no church puts on its front door &mdash; and the one that gets a hesitant 28-year-old through it. It becomes the headline.</p>
+    </div>
+    <div class="find">
+      <span class="tag">The joy is already there</span>
+      <p class="quote">&ldquo;Another 90s song that begs to be played on a church!&rdquo;</p>
+      <p>They post videos of pop songs played on the 1893 Hook &amp; Hastings tracker organ &mdash; an instrument an organ company called the finest of its kind in New England. A landmark treated with affection instead of reverence. That is the brand&rsquo;s sense of humour, and it is free.</p>
+    </div>
+    <div class="find">
+      <span class="tag">The building is the logo</span>
+      <p>No mascot needed. A clock tower that has chimed over Taylor Park since 1893 is already a civic landmark that every person in St. Albans can picture with their eyes closed.</p>
+      <p>It changes with the seasons, which gives the site a living, recurring visual system at zero production cost.</p>
+    </div>
+    <div class="find">
+      <span class="tag">The brave thing</span>
+      <p>Open &amp; Affirming since 16 May 2021 &mdash; explicitly welcoming across sexual orientation and gender identity. In Franklin County, Vermont, that is a genuine differentiator, not a checkbox.</p>
+      <p>Their own covenant says it best: <em>&ldquo;We have no rigid formulation of doctrine. Our overarching creed is love.&rdquo;</em></p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">02 &mdash; The mark</p>
+  <h2>The clock tower, reduced</h2>
+  <p class="lede" style="margin-bottom:34px">Spire, clock, and the round Romanesque arch at its base. Three shapes, legible down to a 16&nbsp;px favicon, and drawn so it can be stamped on a bulletin, a tote bag, or a snow-covered hero image.</p>
+
+  <div class="g2" style="margin-bottom:22px">
+    <div class="markbox">
+      <div class="lockup">
+        <svg width="58" height="79" viewBox="0 0 56 76" aria-label="First Congregational Church tower mark" role="img">
+          <g fill="var(--crimson)">
+            <circle cx="28" cy="3.4" r="2.4"/>
+            <path d="M28 7 L43.5 27 L12.5 27 Z"/>
+            <path d="M12.5 27 H43.5 V76 H12.5 Z"/>
+          </g>
+          <circle cx="28" cy="41" r="8.6" fill="var(--surface)"/>
+          <g stroke="var(--crimson)" stroke-width="2" stroke-linecap="round">
+            <path d="M28 41 V35.2"/><path d="M28 41 L32.2 43.6"/>
+          </g>
+          <path d="M20 76 V63.5 a8 8 0 0 1 16 0 V76 Z" fill="var(--surface)"/>
+        </svg>
+        <div class="wm">
+          <span class="wm-name">First Congregational</span>
+          <span class="wm-sub">St. Albans &middot; Vermont &middot; 1893</span>
+        </div>
+      </div>
+    </div>
+    <div class="markbox dark">
+      <div class="lockup">
+        <svg width="58" height="79" viewBox="0 0 56 76" aria-label="Tower mark, reversed" role="img">
+          <g fill="var(--on-crimson)">
+            <circle cx="28" cy="3.4" r="2.4"/>
+            <path d="M28 7 L43.5 27 L12.5 27 Z"/>
+            <path d="M12.5 27 H43.5 V76 H12.5 Z"/>
+          </g>
+          <circle cx="28" cy="41" r="8.6" fill="var(--crimson)"/>
+          <g stroke="var(--on-crimson)" stroke-width="2" stroke-linecap="round">
+            <path d="M28 41 V35.2"/><path d="M28 41 L32.2 43.6"/>
+          </g>
+          <path d="M20 76 V63.5 a8 8 0 0 1 16 0 V76 Z" fill="var(--crimson)"/>
+        </svg>
+        <div class="wm">
+          <span class="wm-name">First Congregational</span>
+          <span class="wm-sub">St. Albans &middot; Vermont &middot; 1893</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="markbox" style="justify-items:start">
+    <div class="sizes">
+      <div style="text-align:center">
+        <svg width="66" height="90" viewBox="0 0 56 76" role="img" aria-label="Mark at 66 pixels">
+          <g fill="var(--crimson)"><circle cx="28" cy="3.4" r="2.4"/><path d="M28 7 L43.5 27 L12.5 27 Z"/><path d="M12.5 27 H43.5 V76 H12.5 Z"/></g>
+          <circle cx="28" cy="41" r="8.6" fill="var(--surface)"/>
+          <g stroke="var(--crimson)" stroke-width="2" stroke-linecap="round"><path d="M28 41 V35.2"/><path d="M28 41 L32.2 43.6"/></g>
+          <path d="M20 76 V63.5 a8 8 0 0 1 16 0 V76 Z" fill="var(--surface)"/>
+        </svg>
+        <p class="xs" style="margin:8px 0 0">66&nbsp;px</p>
+      </div>
+      <div style="text-align:center">
+        <svg width="32" height="43" viewBox="0 0 56 76" role="img" aria-label="Mark at 32 pixels">
+          <g fill="var(--crimson)"><circle cx="28" cy="3.4" r="2.4"/><path d="M28 7 L43.5 27 L12.5 27 Z"/><path d="M12.5 27 H43.5 V76 H12.5 Z"/></g>
+          <circle cx="28" cy="41" r="8.6" fill="var(--surface)"/>
+          <path d="M20 76 V63.5 a8 8 0 0 1 16 0 V76 Z" fill="var(--surface)"/>
+        </svg>
+        <p class="xs" style="margin:8px 0 0">32&nbsp;px</p>
+      </div>
+      <div style="text-align:center">
+        <svg width="16" height="22" viewBox="0 0 56 76" role="img" aria-label="Mark at 16 pixels">
+          <g fill="var(--crimson)"><path d="M28 7 L43.5 27 L12.5 27 Z"/><path d="M12.5 27 H43.5 V76 H12.5 Z"/></g>
+          <circle cx="28" cy="41" r="8.6" fill="var(--surface)"/>
+          <path d="M20 76 V63.5 a8 8 0 0 1 16 0 V76 Z" fill="var(--surface)"/>
+        </svg>
+        <p class="xs" style="margin:8px 0 0">16&nbsp;px &mdash; clock drops to a dot, arch survives</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">03 &mdash; Colour</p>
+  <h2>Sampled from their own photographs</h2>
+  <p class="lede" style="margin-bottom:34px">Not invented. Every value below was pulled directly out of their photo library, so the site and the room agree with each other.</p>
+  <div class="g4" style="margin-bottom:20px">
+    <div class="sw"><div class="chip" style="background:#6F1322"></div><div class="meta"><p class="nm">Sanctuary Crimson</p><p class="hex">#6F1322</p><p class="src">The chancel carpet. Primary brand colour.</p></div></div>
+    <div class="sw"><div class="chip" style="background:#8B5A36"></div><div class="meta"><p class="nm">Pew Oak</p><p class="hex">#8B5A36</p><p class="src">Honey-toned pews under afternoon light.</p></div></div>
+    <div class="sw"><div class="chip" style="background:#D8D0BD"></div><div class="meta"><p class="nm">Plaster</p><p class="hex">#D8D0BD</p><p class="src">Sanctuary walls. Warm neutral ground.</p></div></div>
+    <div class="sw"><div class="chip" style="background:#3E6FA8"></div><div class="meta"><p class="nm">Winter Sky</p><p class="hex">#3E6FA8</p><p class="src">The February exterior. Second accent.</p></div></div>
+  </div>
+  <div class="g4">
+    <div class="sw"><div class="chip" style="background:#C89B5A"></div><div class="meta"><p class="nm">Lamplight</p><p class="hex">#C89B5A</p><p class="src">The globe pendants. Highlights only.</p></div></div>
+    <div class="sw"><div class="chip" style="background:#5A7440"></div><div class="meta"><p class="nm">Taylor Park</p><p class="hex">#5A7440</p><p class="src">Summer green. Tertiary, used sparingly.</p></div></div>
+    <div class="sw"><div class="chip" style="background:#2A1712"></div><div class="meta"><p class="nm">Timber</p><p class="hex">#2A1712</p><p class="src">Roof trusses. Body text, never pure black.</p></div></div>
+    <div class="sw"><div class="chip" style="background:#E7EDF5"></div><div class="meta"><p class="nm">Snow</p><p class="hex">#E7EDF5</p><p class="src">Cool surface for winter and seasonal pages.</p></div></div>
+  </div>
+  <p class="xs" style="margin-top:20px;max-width:62ch">The deliberate move: most heritage-institution sites default to a warm cream ground with a terracotta accent. Pairing this crimson against a cool <strong>Winter Sky</strong> blue &mdash; taken from their best photograph &mdash; is what stops it looking like every other church site.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">04 &mdash; Typography</p>
+  <h2>Fraunces &amp; Figtree</h2>
+  <div class="g-side" style="margin-bottom:30px">
+    <div>
+      <p><strong>Fraunces</strong> carries the voice of the church. It is an old-style serif with a slight wobble in its curves &mdash; warm and a little imperfect, like a building that has settled for 133 years. It never appears below 19&nbsp;px.</p>
+      <p><strong>Figtree</strong> handles everything a person has to <em>use</em>: navigation, buttons, service times, forms. Rounded terminals, generous x-height, completely unintimidating at 15&nbsp;px on a phone in a car park.</p>
+      <p class="xs">Both are open-licence and embedded directly, so nothing depends on an external font service.</p>
+    </div>
+    <div class="spec">
+      <p class="big">Hymn &amp; Handbell</p>
+      <p class="serif" style="font-size:19px;font-style:italic;color:var(--ink-2);margin:0">Fraunces &mdash; Regular, Semibold, Italic</p>
+      <div style="margin-top:22px">
+        <p style="font-size:17px;font-weight:700;margin:0 0 2px">Sundays at 10:00 in the Sanctuary</p>
+        <p class="sm" style="margin:0">Figtree &mdash; 400 / 500 / 600 / 700</p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="scale-row"><span class="k">Display</span><span class="serif" style="font-size:40px;font-weight:600;line-height:1">Everyone is welcome</span></div>
+    <div class="scale-row"><span class="k">Section</span><span class="serif" style="font-size:28px;font-weight:600">Music &amp; the organ</span></div>
+    <div class="scale-row"><span class="k">Subhead</span><span style="font-size:20px;font-weight:700">This week at the church</span></div>
+    <div class="scale-row"><span class="k">Body</span><span style="font-size:17px">The choir rehearses before the service on Sundays.</span></div>
+    <div class="scale-row"><span class="k">Label</span><span class="lbl" style="margin:0">Coffee hour follows</span></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">05 &mdash; The structural device</p>
+  <h2>Everything sits under an arch</h2>
+  <div class="g-side">
+    <div>
+      <p>The building is Richardsonian Romanesque, and its defining feature is the <strong>round arch</strong> &mdash; in the windows, the porte-coch&egrave;re, the doorways, the tower louvres.</p>
+      <p>So the site&rsquo;s containers are not rounded rectangles. Photographs, feature cards, and section openers are capped with a true semicircle. It gives the warmth and generosity that made the Duolingo reference appealing, but it is drawn from this church&rsquo;s own masonry rather than borrowed from an app.</p>
+      <p class="xs">One CSS rule, used everywhere: <code style="background:var(--snow);padding:2px 6px;border-radius:3px;font-size:12px">border-radius: 9999px 9999px 0 0</code></p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div><div class="arch" style="height:210px"><img class="arch-img" src="data:image/jpeg;base64,__IMG_SANCTUARY__" alt="The sanctuary seen from the rear balcony"></div></div>
+      <div><div class="arch" style="height:210px"><img class="arch-img" src="data:image/jpeg;base64,__IMG_ORGAN__" alt="The 1893 Hook and Hastings tracker organ"></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">06 &mdash; Components</p>
+  <h2>Warm, obvious, unintimidating</h2>
+  <p class="lede" style="margin-bottom:32px">This is where the Duolingo influence actually lives: one clear action per screen, buttons with real physical depth, and language that assumes you know nothing and judges you for none of it.</p>
+
+  <div class="g2" style="margin-bottom:26px">
+    <div class="card">
+      <p class="lbl" style="margin-bottom:16px">Buttons</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <button class="btn">Plan your first visit</button>
+        <button class="btn ghost">Listen to the organ</button>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px">
+        <button class="btn honey">Give</button>
+        <button class="btn" style="font-size:14px;padding:11px 20px">Save my pew</button>
+      </div>
+      <p class="xs" style="margin-top:18px">Press-down depth on the primary button &mdash; the one borrowed mechanic worth keeping. It makes an action feel physical and safe rather than committal.</p>
+    </div>
+    <div class="card archtop">
+      <p class="lbl" style="margin-bottom:10px">First-visit card</p>
+      <h3>What actually happens</h3>
+      <p class="sm" style="margin-bottom:14px">The service runs an hour. Wear whatever you own &mdash; jeans are normal. Park behind the church or on Church Street. Nobody will ask you to stand up, introduce yourself, or give money.</p>
+      <p class="sm" style="margin:0">Children are welcome in the service, and there is a nursery if you would rather.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="lbl">Announcements &mdash; real entries from this month</p>
+    <div class="ann"><div class="when"><div class="d mono-num">22</div><div class="m">Aug</div></div><div><h4>Going Deeper: Spiritual Conversations</h4><p>10am&ndash;noon. Open, exploratory conversation about faith and doubt. Sign-up sheet at coffee hour.</p></div></div>
+    <div class="ann"><div class="when"><div class="d mono-num">21</div><div class="m">Aug</div></div><div><h4>The AHA Art Club</h4><p>Thursdays at noon. Instruction, materials and good cheer provided. No experience necessary.</p></div></div>
+    <div class="ann"><div class="when"><div class="d mono-num">21</div><div class="m">Aug</div></div><div><h4>Mindful Awareness with Jonathan</h4><p>Thursdays, 8&ndash;9am in the Sanctuary. Free and open to anyone.</p></div></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">07 &mdash; The idea worth stealing</p>
+  <h2>Choose your pew</h2>
+  <p class="lede" style="margin-bottom:30px">Free, no obligation, takes four seconds. It solves the single most common anxiety a first-time visitor has &mdash; <em>where do I sit and will I be in someone&rsquo;s seat?</em> &mdash; and it quietly tells the church how many chairs and how much coffee to expect. Try it.</p>
+  <div class="pews">
+    <div class="chancel">Chancel &middot; Organ &amp; Choir</div>
+    <div id="pewmap"></div>
+    <p class="pewnote" id="pewnote">Pick any pew. Nobody is watching, and you can change your mind on Sunday.</p>
+  </div>
+  <p class="xs" style="margin-top:16px;max-width:62ch">Built from the real room: curved pews either side of a centre aisle, seating roughly 350. Balcony rows sit behind. On the live site this would post to a simple list the administrator can read &mdash; no login, no account, just a first name.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">08 &mdash; The pages</p>
+  <h2>What the site is made of</h2>
+  <p class="lede" style="margin-bottom:26px">Built around what they already run, not an aspirational structure they would have to grow into.</p>
+  <div class="page-item"><span class="slug">Home</span><p>The tower through the current season, service time, one primary action, and this week&rsquo;s announcement.</p></div>
+  <div class="page-item"><span class="slug">Sunday Worship</span><p>What happens, what to wear, where to park, the bulletin as a readable web page. Broadcast on Channel 1079 at 4pm.</p></div>
+  <div class="page-item"><span class="slug">Music</span><p>The choir, the concert series, and the organ &mdash; with the 90s videos given pride of place, not hidden.</p></div>
+  <div class="page-item"><span class="slug">Children &amp; Family</span><p>Nursery, the emerging Sunday School, and a plain answer to &ldquo;will my kid be bored?&rdquo;</p></div>
+  <div class="page-item"><span class="slug">Programs</span><p>Art Club, Mindful Awareness, Bible Study, potlucks, breakfasts, AA, blood drives. Their busiest asset, currently invisible.</p></div>
+  <div class="page-item"><span class="slug">Announcements</span><p>Fed by the existing &ldquo;From the Manse&rdquo; newsletter, so no new writing burden.</p></div>
+  <div class="page-item"><span class="slug">Photo Gallery</span><p>The 58 photographs recovered from the current site, properly presented instead of trapped in a broken slideshow.</p></div>
+  <div class="page-item"><span class="slug">Our Story</span><p>1893, the clock, the windows, the organ, the town. Currently four PDF links.</p></div>
+  <div class="page-item"><span class="slug">Weddings &amp; Building Use</span><p>Room-by-room, real photographs, capacities, and an enquiry form. This one earns money.</p></div>
+  <div class="page-item"><span class="slug">Give</span><p>One screen, three amounts, no account required.</p></div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">09 &mdash; Motion</p>
+  <h2>Five Higgsfield shots, and that is all</h2>
+  <p class="lede" style="margin-bottom:10px">You asked to keep this cheap. Five generations, each reusable in several places, all built on photographs they already own. No mascot animation, no character rig, nothing that needs regenerating when the season changes.</p>
+  <div class="shot"><span class="n mono-num">1</span><div><h4>The tower, four seasons</h4><p>One slow push-in on the tower, generated four times &mdash; snow, mud season, summer green, autumn. The homepage swaps by date.</p><span class="re">Reused: home hero &times;4, social cards</span></div></div>
+  <div class="shot"><span class="n mono-num">2</span><div><h4>Light crossing the sanctuary</h4><p>Afternoon sun moving across the pews and crimson carpet. Slow, ambient, loops seamlessly behind the welcome copy.</p><span class="re">Reused: worship page, first-visit card</span></div></div>
+  <div class="shot"><span class="n mono-num">3</span><div><h4>Snow settling on brick</h4><p>Short loop of falling snow against the red masonry. Winter homepage and the Christmas Eve service.</p><span class="re">Reused: seasonal hero, Advent</span></div></div>
+  <div class="shot"><span class="n mono-num">4</span><div><h4>Organ pipes resonating</h4><p>Close, shallow-focus drift across the pipe rank. Opens the music page and fronts the 90s videos.</p><span class="re">Reused: music page, concert series</span></div></div>
+  <div class="shot"><span class="n mono-num">5</span><div><h4>The clock face</h4><p>Tight on the 1893 clock, hands advancing. Loading states, section transitions, and the favicon animation.</p><span class="re">Reused: everywhere, 2&ndash;3 seconds</span></div></div>
+  <p class="xs" style="margin-top:20px;max-width:62ch">Everything else &mdash; the arch reveals, the button depth, the scroll transitions &mdash; is CSS. Free, instant, and it degrades properly for anyone who has reduced motion switched on.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">10 &mdash; Voice</p>
+  <h2>How it should sound</h2>
+  <div class="voice">
+    <div class="yes">
+      <p class="lbl" style="color:var(--moss)">Do</p>
+      <ul>
+        <li>&ldquo;Seekers, believers, and doubters.&rdquo;</li>
+        <li>&ldquo;Wear whatever you own.&rdquo;</li>
+        <li>&ldquo;The service runs an hour. Coffee afterwards.&rdquo;</li>
+        <li>&ldquo;You do not have to believe anything yet.&rdquo;</li>
+        <li>&ldquo;Our overarching creed is love.&rdquo; <span class="xs">(theirs)</span></li>
+        <li>&ldquo;Yes, we played that on the organ.&rdquo;</li>
+      </ul>
+    </div>
+    <div class="no">
+      <p class="lbl" style="color:var(--crimson-ink)">Don&rsquo;t</p>
+      <ul>
+        <li>&ldquo;Come as you are&rdquo; &mdash; worn out, means nothing now.</li>
+        <li>&ldquo;Doing life together&rdquo; and similar church-marketing dialect.</li>
+        <li>&ldquo;Experience the presence&rdquo; &mdash; promises a feeling nobody can guarantee.</li>
+        <li>Exclamation marks stacked three deep.</li>
+        <li>Stock photography of strangers with their hands raised.</li>
+        <li>Anything a 74-year-old member would find embarrassing.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="xs" style="margin-top:18px;max-width:62ch">The test for every line: would it make sense read aloud at coffee hour, and would it reassure someone standing outside on the pavement deciding whether to come in?</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="lbl">11 &mdash; Before we design a single page</p>
+  <h2>Broken things found on the current site</h2>
+  <div class="fix"><span class="dot"></span><p><strong>The &lt;title&gt; tag is empty.</strong> Every browser tab and every Google result is blank. This is the single highest-value fix on the list.</p></div>
+  <div class="fix"><span class="dot"></span><p><strong>Weekly bulletins are .docx.pdf embeds.</strong> Their most regular content is effectively unreadable on a phone. It should be a web page.</p></div>
+  <div class="fix"><span class="dot"></span><p><strong>Two different music directors.</strong> The staff page says Bailey Brown; the music page says to contact Erin Grainger. One of them is out of date.</p></div>
+  <div class="fix"><span class="dot"></span><p><strong>The sanctuary seats 350 &mdash; or 380.</strong> Both numbers appear, on three different pages.</p></div>
+  <div class="fix"><span class="dot"></span><p><strong>&ldquo;This slideshow requires JavaScript.&rdquo;</strong> Printed on the Building Use page, where the wedding photographs should be.</p></div>
+  <div class="fix"><span class="dot"></span><p><strong>The history page is four PDF links.</strong> The clock, the windows and the organ are the most interesting things they own.</p></div>
+</div></section>
+
+<div class="wrap">
+  <div class="g3" style="padding-bottom:70px">
+    <div><div class="arch" style="height:250px"><img class="arch-img" src="data:image/jpeg;base64,__IMG_POTLUCK__" alt="Members of the congregation at a monthly potluck lunch"></div><p class="cap">Monthly potluck. The real congregation, unposed.</p></div>
+    <div><div class="arch" style="height:250px"><img class="arch-img" src="data:image/jpeg;base64,__IMG_CHRISTMAS__" alt="The sanctuary decorated for Christmas"></div><p class="cap">Christmas Eve &mdash; crimson at its fullest.</p></div>
+    <div><div class="arch" style="height:250px"><img class="arch-img" src="data:image/jpeg;base64,__IMG_SUMMER__" alt="The church exterior in summer, seen across the green"></div><p class="cap">Summer, across from Taylor Park.</p></div>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <p style="margin:0 0 6px"><strong style="color:var(--ink)">Sanctuary</strong> &mdash; identity direction for First Congregational Church, St. Albans, Vermont.</p>
+  <p style="margin:0">Photographs and quoted copy belong to the church. Colour values sampled from their own photo library. Prepared 18 August 2026 as a concept, not an endorsed or commissioned work.</p>
+</div></footer>
+
+<script>
+(function(){
+  var map=document.getElementById('pewmap'),note=document.getElementById('pewnote');
+  if(!map)return;
+  var rows=10,picked=null;
+  for(let r=1;r<=rows;r++){
+    var row=document.createElement('div');row.className='pewrow';
+    var rn=document.createElement('span');rn.className='rn';rn.textContent=r;row.appendChild(rn);
+    ['L','R'].forEach(function(side,i){
+      var b=document.createElement('button');
+      b.className='pew';b.type='button';b.setAttribute('aria-pressed','false');
+      b.setAttribute('aria-label','Row '+r+', '+(side==='L'?'left':'right')+' side');
+      b.dataset.id=r+side;
+      b.addEventListener('click',function(){
+        if(picked&&picked!==b){picked.setAttribute('aria-pressed','false');picked.textContent='';}
+        var on=b.getAttribute('aria-pressed')==='true';
+        b.setAttribute('aria-pressed',on?'false':'true');
+        b.textContent=on?'':'You';
+        picked=on?null:b;
+        note.innerHTML=on
+          ? 'Pick any pew. Nobody is watching, and you can change your mind on Sunday.'
+          : 'Saved &mdash; <strong>row '+r+', '+(side==='L'?'left':'right')+' side</strong>. We will leave a bulletin on the seat.';
+      });
+      row.appendChild(b);
+      if(i===0){var a=document.createElement('span');a.className='aisle';row.appendChild(a);}
+    });
+    map.appendChild(row);
+  }
+})();
+</script>

@@ -1,0 +1,727 @@
+<title>Church Street Homepage</title>
+<style>
+@font-face{font-family:'Figtree';src:url(data:font/woff2;base64,__FIGTREE__) format('woff2');font-weight:300 900;font-style:normal;font-display:block;}
+@font-face{font-family:'Fraunces';src:url(data:font/woff2;base64,__FRAUNCES__) format('woff2');font-weight:100 900;font-style:normal;font-display:block;}
+
+:root{
+  --plaster:#F3EEEC; --surface:#FBF8F7; --snow:#E7EDF5;
+  --ink:#2A1712; --ink-2:#6A554D; --ink-3:#938078;
+  --rule:#DED3CE;
+  --crimson:#6F1322; --crimson-2:#8E1B2E; --crimson-ink:#6F1322;
+  --honey:#8A5C22; --honey-2:#C89B5A;
+  --sky:#3E6FA8; --moss:#5A7440;
+  --on-crimson:#F7EDE7;
+  --shadow:rgba(42,23,18,.15); --shadow-2:rgba(42,23,18,.07);
+  --header-bg:rgba(251,248,247,.88);
+  /* The footer is dark in BOTH themes, so it needs its own tokens. Using
+     --ink as a background inverts it in dark mode and hides the text. */
+  --footer-bg:#2A1712; --footer-fg:#D8C9C2; --footer-head:#F5EBE6;
+  --footer-muted:#9C8880; --footer-rule:rgba(216,201,194,.22);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --plaster:#191010; --surface:#221614; --snow:#1E242E;
+    --ink:#F2E7E2; --ink-2:#C0AAA2; --ink-3:#8E7972; --rule:#3A2723;
+    --crimson:#8E1B2E; --crimson-2:#A82238; --crimson-ink:#E28794;
+    --honey:#D9A45C; --honey-2:#C89B5A; --sky:#8FB2DE; --moss:#9CB77F;
+    --on-crimson:#FBF3EF;
+    --shadow:rgba(0,0,0,.55); --shadow-2:rgba(0,0,0,.3);
+    --header-bg:rgba(34,22,20,.88);
+  --footer-bg:#120B0A; --footer-fg:#C7B2AA; --footer-head:#F2E7E2;
+  --footer-muted:#8E7972; --footer-rule:rgba(199,178,170,.20);
+  }
+}
+:root[data-theme="dark"]{
+  --plaster:#191010; --surface:#221614; --snow:#1E242E;
+  --ink:#F2E7E2; --ink-2:#C0AAA2; --ink-3:#8E7972; --rule:#3A2723;
+  --crimson:#8E1B2E; --crimson-2:#A82238; --crimson-ink:#E28794;
+  --honey:#D9A45C; --honey-2:#C89B5A; --sky:#8FB2DE; --moss:#9CB77F;
+  --on-crimson:#FBF3EF;
+  --shadow:rgba(0,0,0,.55); --shadow-2:rgba(0,0,0,.3);
+  --header-bg:rgba(34,22,20,.88);
+  --footer-bg:#120B0A; --footer-fg:#C7B2AA; --footer-head:#F2E7E2;
+  --footer-muted:#8E7972; --footer-rule:rgba(199,178,170,.20);
+}
+
+*{box-sizing:border-box}
+/* Elements with an explicit display (the hero is flex) ignore the UA's
+   [hidden]{display:none}, so the router needs this guard. */
+[hidden]{display:none !important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--plaster);color:var(--ink);
+  font-family:'Figtree',ui-sans-serif,system-ui,sans-serif;font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-optical-sizing:auto;text-wrap:balance}
+h2{font-size:clamp(28px,4vw,42px);line-height:1.08;letter-spacing:-.02em;font-weight:600;margin:0 0 12px}
+h3{font-size:20px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em}
+p{margin:0 0 14px}
+.lbl{font-size:11.5px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px}
+.lede{font-size:19px;color:var(--ink-2);max-width:58ch}
+.sm{font-size:14.5px;color:var(--ink-2)}
+.xs{font-size:12.5px;color:var(--ink-3);line-height:1.5}
+section{padding:84px 0}
+.arch{border-radius:9999px 9999px 0 0;overflow:hidden}
+.arch-img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:60;background:var(--header-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
+.hdr{display:flex;align-items:center;gap:26px;padding:12px 0}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto}
+.brand .nm{font-family:'Fraunces',Georgia,serif;font-size:17.5px;font-weight:600;color:var(--ink);line-height:1.1}
+.brand .sb{font-size:8.5px;font-weight:700;letter-spacing:.19em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:3px}
+nav{display:flex;gap:24px}
+nav a{font-size:15px;font-weight:600;color:var(--ink-2);text-decoration:none;padding:5px 0;border-bottom:2px solid transparent}
+nav a:hover{color:var(--crimson-ink);border-bottom-color:var(--crimson)}
+nav a:focus-visible,.btn:focus-visible,.seasonbtn:focus-visible,.pew:focus-visible,.amt:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+@media(max-width:900px){nav{display:none}}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Figtree';font-size:16px;font-weight:700;
+  padding:14px 26px;border-radius:999px;border:none;cursor:pointer;text-decoration:none;
+  background:var(--crimson);color:var(--on-crimson);box-shadow:0 4px 0 rgba(0,0,0,.24);
+  transition:transform .12s ease,box-shadow .12s ease}
+.btn:hover{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.24)}
+.btn:active{transform:translateY(4px);box-shadow:0 0 0 rgba(0,0,0,.24)}
+.btn.sm{font-size:14px;padding:10px 20px;box-shadow:0 3px 0 rgba(0,0,0,.24)}
+.btn.ghost{background:transparent;color:var(--crimson-ink);box-shadow:inset 0 0 0 2px var(--crimson)}
+.btn.ghost:hover{transform:none;background:color-mix(in srgb,var(--crimson) 8%,transparent);box-shadow:inset 0 0 0 2px var(--crimson)}
+.btn.light{background:var(--on-crimson);color:var(--crimson)}
+.btn.honeyb{background:var(--honey);color:#fff}
+
+/* HERO */
+.hero{position:relative;min-height:min(90vh,760px);display:flex;align-items:flex-end;overflow:hidden;background:var(--crimson)}
+.hero-bg{position:absolute;inset:0}
+/* All four seasonals must occupy the same box and cross-fade. Without
+   position:absolute they stack in normal flow and only the first is in frame. */
+.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease}
+.hero-bg img.on{opacity:1}
+/* Framing per photograph: two of the four seasonals are portrait, and a plain
+   centre crop cuts the spire off. Keep the tower in frame in every season. */
+#bg-spring{object-position:62% 26%}
+#bg-winter{object-position:50% 30%}
+#bg-summer{object-position:50% 42%}
+#bg-autumn{object-position:56% 46%}
+/* Angled scrim: heavy behind the type on the left, clearing to almost nothing
+   on the right so the building itself stays visible. */
+.hero-scrim{position:absolute;inset:0;background:
+  linear-gradient(102deg,rgba(26,6,10,.93) 0%,rgba(38,9,15,.84) 30%,rgba(52,12,20,.50) 58%,rgba(68,16,25,.14) 100%),
+  linear-gradient(to top,rgba(26,6,10,.78) 0%,rgba(26,6,10,.22) 32%,transparent 56%)}
+.hero-in{position:relative;z-index:2;width:100%;padding:120px 0 56px;color:var(--on-crimson)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11.5px;font-weight:700;letter-spacing:.17em;
+  text-transform:uppercase;color:rgba(247,237,231,.82);background:rgba(0,0,0,.3);
+  padding:7px 15px;border-radius:999px;margin-bottom:22px;backdrop-filter:blur(4px)}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--honey-2)}
+.hero h1{font-size:clamp(42px,7.6vw,86px);line-height:.98;letter-spacing:-.03em;font-weight:600;
+  margin:0 0 20px;max-width:15ch;font-variation-settings:'opsz' 144}
+.hero h1 em{font-style:italic;color:var(--honey-2)}
+.hero .hsub{font-size:20px;color:rgba(247,237,231,.92);max-width:46ch;margin:0 0 30px}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;align-items:center}
+.hero-when{margin-top:32px;display:flex;gap:30px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(247,237,231,.25)}
+.hero-when div{min-width:130px}
+.hero-when .k{font-size:10.5px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:rgba(247,237,231,.6);margin-bottom:3px}
+.hero-when .v{font-size:16.5px;font-weight:600;color:var(--on-crimson)}
+
+/* SEASON CONTROL &mdash; lives in the top bar, scrolls away with it */
+.seasonbar{display:flex;align-items:center;gap:3px;padding-left:16px;margin-left:2px;
+  border-left:1px solid var(--rule)}
+.seasonbtn{width:31px;height:31px;display:grid;place-items:center;border-radius:9px;
+  border:1px solid transparent;background:transparent;color:var(--ink-3);cursor:pointer;
+  transition:background .13s ease,color .13s ease,border-color .13s ease;padding:0}
+.seasonbtn svg{width:17px;height:17px;display:block}
+.seasonbtn:hover{color:var(--crimson-ink);background:color-mix(in srgb,var(--crimson) 9%,transparent)}
+.seasonbtn[aria-pressed="true"]{background:var(--crimson);border-color:var(--crimson);color:var(--on-crimson)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:560px){.seasonbar{padding-left:9px;gap:1px}.seasonbtn{width:28px;height:28px}}
+
+/* STRIP */
+.strip{background:var(--surface);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.strip .in{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.strip .cell{padding:26px 24px;border-left:1px solid var(--rule)}
+.strip .cell:first-child{border-left:none;padding-left:0}
+.strip .k{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
+.strip .v{font-size:17px;font-weight:600}
+.strip .v span{color:var(--ink-2);font-weight:400;font-size:15px}
+@media(max-width:800px){.strip .in{grid-template-columns:1fr}.strip .cell{border-left:none;border-top:1px solid var(--rule);padding-left:0}.strip .cell:first-child{border-top:none}}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
+.split.wide{grid-template-columns:1.15fr .85fr}
+@media(max-width:900px){.g2,.g3,.split,.split.wide{grid-template-columns:1fr;gap:30px}}
+
+.card{background:var(--surface);border:1px solid var(--rule);padding:24px;box-shadow:0 1px 2px var(--shadow-2)}
+.expect{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--rule);background:var(--surface)}
+.expect > div{padding:24px;border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.expect > div:nth-child(-n+2){border-top:none}
+.expect > div:nth-child(odd){border-left:none}
+.expect h3{font-size:18px}
+.expect p{margin:0;font-size:15px;color:var(--ink-2)}
+@media(max-width:700px){.expect{grid-template-columns:1fr}.expect>div{border-left:none;border-top:1px solid var(--rule)}.expect>div:first-child{border-top:none}}
+
+/* WEEK */
+.week{border-top:1px solid var(--rule)}
+.witem{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--rule);align-items:flex-start}
+.witem .when{flex:none;width:70px;text-align:center;padding-right:16px;border-right:1px solid var(--rule)}
+.witem .when .d{font-family:'Fraunces',Georgia,serif;font-size:28px;font-weight:600;line-height:1;color:var(--crimson-ink);font-variant-numeric:tabular-nums}
+.witem .when .m{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:700;margin-top:4px}
+.witem h3{margin:0 0 4px;font-family:'Figtree';font-size:17px;font-weight:700}
+.witem p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.witem .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--moss);border:1px solid currentColor;padding:2px 8px;border-radius:999px;margin-top:8px}
+
+/* MUSIC */
+.music{background:var(--crimson);color:var(--on-crimson)}
+.music h2,.music h3{color:var(--on-crimson)}
+.music .lbl{color:rgba(247,237,231,.6)}
+.music p{color:rgba(247,237,231,.88)}
+.pull{font-family:'Fraunces',Georgia,serif;font-size:clamp(22px,2.6vw,30px);line-height:1.28;font-style:italic;
+  color:var(--honey-2);margin:0 0 18px;max-width:22ch}
+.vidcard{background:rgba(0,0,0,.24);border:1px solid rgba(247,237,231,.2);padding:16px 18px;border-radius:6px;display:flex;gap:14px;align-items:center}
+.vidcard .play{flex:none;width:38px;height:38px;border-radius:50%;background:var(--honey-2);display:grid;place-items:center}
+.vidcard .play svg{margin-left:2px}
+.vidcard h3{margin:0 0 2px;font-family:'Figtree';font-size:15.5px;font-weight:700}
+.vidcard p{margin:0;font-size:13px;color:rgba(247,237,231,.7)}
+
+/* PROGRAMS */
+.prog{background:var(--surface);border:1px solid var(--rule);padding:22px;transition:.15s;box-shadow:0 1px 2px var(--shadow-2)}
+.prog:hover{border-color:var(--crimson);transform:translateY(-2px);box-shadow:0 8px 20px -8px var(--shadow)}
+.prog .w{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--crimson-ink);margin-bottom:9px}
+.prog h3{font-family:'Figtree';font-size:17px;font-weight:700;margin-bottom:5px}
+.prog p{margin:0;font-size:14.5px;color:var(--ink-2)}
+
+/* MAP */
+.maplayout{display:grid;grid-template-columns:.92fr 1.08fr;gap:48px;align-items:center}
+@media(max-width:900px){.maplayout{grid-template-columns:1fr;gap:32px}}
+.mapframe{background:var(--snow);border:1px solid var(--rule);border-radius:6px;padding:18px;position:relative}
+.mapsvg{display:block;width:100%;height:auto;max-height:600px}
+.vt-land{fill:color-mix(in srgb,var(--moss) 17%,transparent);stroke:var(--ink-2);stroke-width:1.6;
+  stroke-linejoin:round;stroke-linecap:round}
+.vt-draw{fill:none;stroke:var(--crimson);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.vt-lake{fill:color-mix(in srgb,var(--sky) 42%,transparent);stroke:var(--sky);stroke-width:.9;opacity:.85}
+.vt-ridge{fill:none;stroke:var(--ink-3);stroke-width:1.2;stroke-linecap:round;opacity:.42}
+.vt-edge{font-size:8.4px;letter-spacing:.16em;fill:var(--ink-3);font-family:'Figtree';font-weight:700;text-transform:uppercase}
+.town{cursor:pointer}
+.town circle.dot{fill:var(--surface);stroke:var(--ink-2);stroke-width:1.7;transition:.16s}
+.town text{font-size:9.4px;font-family:'Figtree';font-weight:600;fill:var(--ink-2);transition:.16s}
+.town:hover circle.dot,.town.on circle.dot{fill:var(--crimson);stroke:var(--crimson);r:4.6}
+.town:hover text,.town.on text{fill:var(--crimson-ink)}
+.town:focus{outline:none}
+.town:focus-visible circle.dot{stroke:var(--sky);stroke-width:3}
+.pin-ripple{fill:none;stroke:var(--crimson);stroke-width:2;opacity:0;transform-origin:78px 108px}
+.pin-core{fill:var(--crimson);stroke:var(--surface);stroke-width:2}
+.pin-label{font-size:11px;font-family:'Fraunces',Georgia,serif;font-weight:600;fill:var(--crimson-ink)}
+@keyframes ripple{0%{transform:scale(.35);opacity:.85}70%{opacity:0}100%{transform:scale(2.6);opacity:0}}
+.ani .pin-ripple{animation:ripple 3s ease-out infinite}
+.ani .pin-ripple.b{animation-delay:1.5s}
+.driverow{display:flex;align-items:baseline;gap:12px;padding:12px 0;border-top:1px solid var(--rule);
+  cursor:pointer;transition:.14s;width:100%;text-align:left;background:none;border-left:0;border-right:0;border-bottom:0;
+  font-family:'Figtree';color:inherit}
+.driverow:hover,.driverow.on{padding-left:7px}
+.driverow:hover .nm,.driverow.on .nm{color:var(--crimson-ink)}
+.driverow .nm{font-size:16px;font-weight:600;margin-right:auto;transition:.14s}
+.driverow .t{font-size:14.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.driverow:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.maphere{display:flex;gap:11px;align-items:flex-start;background:var(--surface);border:1px solid var(--rule);
+  padding:15px 16px;margin-bottom:20px}
+.maphere .p{flex:none;width:9px;height:9px;border-radius:50%;background:var(--crimson);margin-top:7px}
+
+/* PEWS */
+.pews{background:var(--surface);border:1px solid var(--rule);padding:26px 22px 24px}
+.chancel{background:var(--crimson);color:var(--on-crimson);text-align:center;font-size:11px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;padding:11px;border-radius:9999px 9999px 3px 3px;margin-bottom:20px}
+.pewrow{display:flex;gap:11px;justify-content:center;margin-bottom:9px;align-items:center}
+.pewrow .rn{font-size:10.5px;color:var(--ink-3);width:16px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.pew{flex:1;max-width:150px;height:26px;border-radius:5px;border:1.5px solid var(--honey-2);
+  background:color-mix(in srgb,var(--honey-2) 22%,transparent);cursor:pointer;transition:all .14s ease;
+  font-size:11px;font-weight:700;color:var(--ink-2);font-family:'Figtree'}
+.pew:hover{background:color-mix(in srgb,var(--honey-2) 45%,transparent);transform:translateY(-1px)}
+.pew[aria-pressed="true"]{background:var(--crimson);border-color:var(--crimson);color:var(--on-crimson)}
+.aisle{width:26px;flex:none}
+.pewnote{text-align:center;margin-top:18px;font-size:14.5px;color:var(--ink-2);min-height:24px}
+.pewnote strong{color:var(--crimson-ink)}
+
+/* GIVE */
+.give{background:var(--snow);border:1px solid var(--rule);padding:32px}
+.amts{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.amt{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:600;padding:14px 24px;border-radius:10px;
+  border:2px solid var(--rule);background:var(--surface);color:var(--ink);cursor:pointer;transition:.13s;font-variant-numeric:tabular-nums}
+.amt:hover{border-color:var(--crimson)}
+.amt[aria-pressed="true"]{background:var(--crimson);border-color:var(--crimson);color:var(--on-crimson)}
+.demoflag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--honey);border:1px dashed var(--honey);padding:5px 12px;border-radius:999px;margin-bottom:16px}
+
+/* GALLERY */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.gal .arch{height:230px}
+@media(max-width:900px){.gal{grid-template-columns:repeat(2,1fr)}}
+
+/* FOOTER */
+footer{background:var(--footer-bg);color:var(--footer-fg);padding:60px 0 40px;margin-top:20px}
+footer a{color:var(--honey-2)}
+footer h3{color:var(--footer-head);font-family:'Figtree';font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px}
+footer p{font-size:14.5px;margin:0 0 7px;line-height:1.6}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:38px}
+@media(max-width:800px){.fgrid{grid-template-columns:1fr;gap:28px}}
+.fbot{border-top:1px solid var(--footer-rule);padding-top:22px;font-size:12.5px;color:var(--footer-muted)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<header>
+  <div class="wrap hdr">
+    <a class="brand" href="#/home" data-go="home">
+      <svg width="30" height="41" viewBox="0 0 56 76" role="img" aria-label="First Congregational Church">
+        <g style="fill:var(--crimson)"><circle cx="28" cy="3.4" r="2.4"/><path d="M28 7 L43.5 27 L12.5 27 Z"/><path d="M12.5 27 H43.5 V76 H12.5 Z"/></g>
+        <circle cx="28" cy="41" r="8.6" style="fill:var(--surface)"/>
+        <g style="stroke:var(--crimson)" stroke-width="2.4" stroke-linecap="round"><path d="M28 41 V35.2"/><path d="M28 41 L32.2 43.6"/></g>
+        <path d="M20 76 V63.5 a8 8 0 0 1 16 0 V76 Z" style="fill:var(--surface)"/>
+      </svg>
+      <span><span class="nm">First Congregational</span><span class="sb">St. Albans &middot; Vermont</span></span>
+    </a>
+    <nav>
+      <a href="#/home" data-go="home">Home</a>
+      <a href="#/sunday" data-go="sunday">Sunday</a>
+      <a href="#/music" data-go="music">Music</a>
+      <a href="#/programs" data-go="programs">Programs</a>
+      <a href="#/visit" data-go="visit">Visit</a>
+      <a href="#/photos" data-go="photos">Photos</a>
+    </nav>
+    <div class="seasonbar" id="seasonrow" role="group" aria-label="Seasonal hero image"></div>
+    <span class="vh" id="seasonlive" aria-live="polite"></span>
+    <a class="btn sm honeyb" href="#/give" data-go="give">Give</a>
+  </div>
+</header>
+
+<div id="top" class="hero" data-page="home">
+  <div class="hero-bg">
+    <img id="bg-spring" src="data:image/jpeg;base64,__S_SPRING__" alt="The church in spring, blossom on the trees">
+    <img id="bg-summer" src="data:image/jpeg;base64,__S_SUMMER__" alt="The church in summer, green across the park">
+    <img id="bg-autumn" src="data:image/jpeg;base64,__S_AUTUMN__" alt="The church in autumn seen from Church Street">
+    <img id="bg-winter" src="data:image/jpeg;base64,__S_WINTER__" alt="The church tower in winter against a blue sky">
+  </div>
+  <div class="hero-scrim"></div>
+  <div class="hero-in"><div class="wrap">
+    <span class="hero-eyebrow"><span class="dot"></span><span id="eyebrow">Open &amp; Affirming &middot; Since 1893</span></span>
+    <h1>Seekers, believers, and <em>doubters.</em></h1>
+    <p class="hsub">A small church in the middle of St. Albans, with a clock that has chimed over Taylor Park since 1893. You would be welcome on Sunday.</p>
+    <div class="hero-cta">
+      <a class="btn light" href="#/sunday" data-go="sunday">Plan your first visit</a>
+      <a class="btn" href="#/visit" data-go="visit" style="background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 2px rgba(247,237,231,.5);color:var(--on-crimson)">Choose your pew</a>
+    </div>
+    <div class="hero-when">
+      <div><div class="k">Worship</div><div class="v">Sundays at 10:00am</div></div>
+      <div><div class="k">Where</div><div class="v">27 Church Street</div></div>
+      <div><div class="k">Also on TV</div><div class="v">Channel 1079, 4:00pm</div></div>
+    </div>
+  </div></div>
+</div>
+
+<div class="strip" data-page="home"><div class="wrap in">
+  <div class="cell"><div class="k">Everyone means everyone</div><div class="v">Open &amp; Affirming <span>&mdash; since May 2021</span></div></div>
+  <div class="cell"><div class="k">The service</div><div class="v">One hour <span>&mdash; coffee afterwards</span></div></div>
+  <div class="cell"><div class="k">Office</div><div class="v">Tue&ndash;Fri, 9&ndash;2 <span>&mdash; (802) 524-4555</span></div></div>
+</div></div>
+
+<section id="sunday" data-page="home sunday"><div class="wrap">
+  <div class="split wide">
+    <div>
+      <p class="lbl">Your first Sunday</p>
+      <h2>What actually happens</h2>
+      <p class="lede" style="margin-bottom:26px">The honest version, because nobody should have to guess. If you would rather ask a person, call the office &mdash; someone will get back to you within a day.</p>
+      <a class="btn ghost" href="#/visit" data-go="visit">Find us &amp; choose a pew</a>
+    </div>
+    <div><div class="arch" style="height:340px"><img class="arch-img" src="data:image/jpeg;base64,__SANCTUARY__" alt="The sanctuary seen from the rear balcony"></div></div>
+  </div>
+  <div class="expect" style="margin-top:44px">
+    <div><h3>Wear whatever you own</h3><p>Jeans are normal. Nobody here is dressed up enough to judge you.</p></div>
+    <div><h3>Park behind the church</h3><p>There is a lot at the rear, and on-street parking on Church Street. Enter either way.</p></div>
+    <div><h3>You will not be singled out</h3><p>No standing up, no introducing yourself, no being asked for money. Sit in the back if you want to.</p></div>
+    <div><h3>Children are welcome</h3><p>They can stay in the service &mdash; noise is fine. A nursery can be arranged if you would rather.</p></div>
+  </div>
+</div></section>
+
+<section id="week" data-page="home sunday" style="padding-top:0"><div class="wrap">
+  <p class="lbl">This week at the church</p>
+  <h2>What is on</h2>
+  <p class="lede" style="margin-bottom:30px">Pulled straight from the weekly newsletter, so the office never writes anything twice.</p>
+  <div class="week">
+    <div class="witem">
+      <div class="when"><div class="d">24</div><div class="m">Aug</div></div>
+      <div><h3>Sunday Worship</h3><p>10:00am in the Sanctuary. Choir and organ. Coffee and treats afterwards in the Fellowship Hall.</p><span class="tag">Everyone welcome</span></div>
+    </div>
+    <div class="witem">
+      <div class="when"><div class="d">21</div><div class="m">Aug</div></div>
+      <div><h3>Mindful Awareness with Jonathan</h3><p>8:00&ndash;9:00am in the Sanctuary. Free, no experience needed, drop in.</p></div>
+    </div>
+    <div class="witem">
+      <div class="when"><div class="d">21</div><div class="m">Aug</div></div>
+      <div><h3>The AHA Art Club</h3><p>Thursdays at noon. Instruction, materials and good cheer provided. Donations welcome, never required.</p></div>
+    </div>
+    <div class="witem">
+      <div class="when"><div class="d">29</div><div class="m">Aug</div></div>
+      <div><h3>Going Deeper: Spiritual Conversations</h3><p>10:00am&ndash;noon. Open conversation about faith and doubt &mdash; not about converting anyone. Space is limited; speak to Pastor Jessica.</p><span class="tag">Sign-up at coffee hour</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="music" class="music" data-page="music"><div class="wrap">
+  <div class="split">
+    <div>
+      <p class="lbl">Music</p>
+      <h2>An 1893 organ, played with affection</h2>
+      <p class="pull">&ldquo;Another 90s song that begs to be played on a church!&rdquo;</p>
+      <p>The Hook &amp; Hastings tracker organ was shipped from Boston in pieces and assembled in the space above the altar it was built for. An organ company called it the finest of its kind in New England.</p>
+      <p>It is maintained by our own organist, Stephan Conrady, who trained as an organ builder in Germany. It plays hymns beautifully. It also plays other things.</p>
+      <p style="margin-bottom:24px">The choir sings from September to mid-June, and anyone who can carry a tune is welcome &mdash; some read music, some learn by ear.</p>
+      <a class="btn light" href="#/programs" data-go="programs">More about the choir</a>
+    </div>
+    <div style="display:grid;gap:14px">
+      <div class="arch" style="height:250px"><img class="arch-img" src="data:image/jpeg;base64,__ORGAN__" alt="The Hook and Hastings tracker organ pipes"></div>
+      <div class="vidcard">
+        <span class="play"><svg width="13" height="15" viewBox="0 0 13 15" aria-hidden="true"><path d="M0 0 L13 7.5 L0 15 Z" fill="#3A0F18"/></svg></span>
+        <div><h3>90s Night on the Tracker Organ</h3><p>From the church&rsquo;s Facebook &mdash; the series that deserves a home here</p></div>
+      </div>
+      <div class="vidcard">
+        <span class="play"><svg width="13" height="15" viewBox="0 0 13 15" aria-hidden="true"><path d="M0 0 L13 7.5 L0 15 Z" fill="#3A0F18"/></svg></span>
+        <div><h3>Church Street Sounds of the Season</h3><p>Free autumn concerts, second Sunday at 3pm</p></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="programs" data-page="programs"><div class="wrap">
+  <p class="lbl">All year round</p>
+  <h2>There is nearly always something on</h2>
+  <p class="lede" style="margin-bottom:34px">Most of it has nothing to do with Sunday, and none of it requires membership. This is the busiest thing the church does, and the current site hides it.</p>
+  <div class="g3" style="margin-bottom:22px">
+    <div class="prog"><div class="w">Thursdays &middot; Noon</div><h3>The AHA Art Club</h3><p>A creative outlet with materials and instruction provided. No experience necessary.</p></div>
+    <div class="prog"><div class="w">Thursdays &middot; 8am</div><h3>Mindful Awareness</h3><p>An hour of quiet in the Sanctuary with Jonathan. Free and open to anyone.</p></div>
+    <div class="prog"><div class="w">Sundays &middot; Monthly</div><h3>Potluck Luncheons</h3><p>Everyone brings something. There is always too much food, which is the point.</p></div>
+    <div class="prog"><div class="w">Autumn &middot; Monthly</div><h3>Sounds of the Season</h3><p>Free concerts with St. Luke&rsquo;s &mdash; classical, folk and vocal.</p></div>
+    <div class="prog"><div class="w">Weekly</div><h3>A.A. Meetings</h3><p>The building is open to the groups that need it, every week of the year.</p></div>
+    <div class="prog"><div class="w">Seasonal</div><h3>Red Cross Blood Drives</h3><p>The Fellowship Hall becomes a donation centre several times a year.</p></div>
+  </div>
+  <div class="g2">
+    <div class="prog"><div class="w">Regularly</div><h3>Ladies&rsquo; &amp; Men&rsquo;s Breakfasts</h3><p>Long-running, well attended, and exactly as advertised.</p></div>
+    <div class="prog"><div class="w">Term time</div><h3>Bible Study &amp; Prayer Chain</h3><p>On Zoom and in person. On a break through the summer.</p></div>
+  </div>
+</div></section>
+
+
+<section id="map" data-page="home visit"><div class="wrap">
+  <p class="lbl">Finding us</p>
+  <h2>In the middle of St. Albans</h2>
+  <p class="lede" style="margin-bottom:34px">Northwest Vermont, twenty-five miles up the lake from Burlington, facing Taylor Park. The clock in the tower has been keeping the town&rsquo;s time since 1893.</p>
+  <div class="maplayout">
+    <div>
+      <div class="maphere">
+        <span class="p"></span>
+        <div>
+          <h3 style="font-family:'Figtree';font-size:17px;margin:0 0 3px">27 Church Street</h3>
+          <p class="sm" style="margin:0">Saint Albans, Vermont 05478. Enter from Church Street or from the car park at the rear.</p>
+        </div>
+      </div>
+      <p class="lbl" style="margin-bottom:2px">Roughly how far</p>
+      <div id="driverows">
+        <button class="driverow" type="button" data-town="Burlington"><span class="nm">Burlington</span><span class="t">30 min</span></button>
+        <button class="driverow" type="button" data-town="Montpelier"><span class="nm">Montpelier</span><span class="t">1 hr</span></button>
+        <button class="driverow" type="button" data-town="Rutland"><span class="nm">Rutland</span><span class="t">1 hr 50</span></button>
+        <button class="driverow" type="button" data-town="Brattleboro"><span class="nm">Brattleboro</span><span class="t">3 hr</span></button>
+      </div>
+      <p class="xs" style="margin-top:16px">Hover or tab through the list to find each town on the map. Times are typical driving times, not promises about Route 7.</p>
+    </div>
+
+    <div class="mapframe">
+      <svg class="mapsvg" id="vtmap" viewBox="0 0 260 430" role="img"
+           aria-label="Map of Vermont showing St. Albans in the northwest, with Burlington, Montpelier, Rutland and Brattleboro">
+        <text class="vt-edge" x="130" y="12" text-anchor="middle">Qu&#233;bec</text>
+        <text class="vt-edge" x="16" y="240" text-anchor="middle" transform="rotate(-90 16 240)">New York</text>
+        <text class="vt-edge" x="246" y="230" text-anchor="middle" transform="rotate(90 246 230)">New Hampshire</text>
+        <text class="vt-edge" x="138" y="424" text-anchor="middle">Massachusetts</text>
+
+        <path class="vt-lake" d="M52 60 C40 96 44 142 54 182 C58 200 54 214 48 218 C36 182 30 118 42 64 Z"/>
+        <path class="vt-land" id="vtland" d="M44 20 L220 30 L214 76 L226 118 L212 166 L222 212 L206 262 L210 310 L192 360 L178 408 L98 404 L92 356 L84 304 L74 252 L80 210 L66 166 L72 120 L54 74 Z"/>
+        <path class="vt-draw" id="vtdraw" d="M44 20 L220 30 L214 76 L226 118 L212 166 L222 212 L206 262 L210 310 L192 360 L178 408 L98 404 L92 356 L84 304 L74 252 L80 210 L66 166 L72 120 L54 74 Z"/>
+
+        <g class="vt-ridge">
+          <path d="M126 132 l9 -11 l9 11"/><path d="M138 186 l9 -11 l9 11"/>
+          <path d="M120 232 l9 -11 l9 11"/><path d="M140 286 l9 -11 l9 11"/>
+          <path d="M150 336 l9 -11 l9 11"/>
+        </g>
+
+        <g class="town" data-town="Burlington" tabindex="0" role="button" aria-label="Burlington, 30 min from the church"><circle class="dot" cx="72" cy="158" r="3.6"/><text x="80" y="161">Burlington</text></g>
+        <g class="town" data-town="Montpelier" tabindex="0" role="button" aria-label="Montpelier, 1 hr from the church"><circle class="dot" cx="132" cy="168" r="3.6"/><text x="140" y="171">Montpelier</text></g>
+        <g class="town" data-town="Rutland" tabindex="0" role="button" aria-label="Rutland, 1 hr 50 from the church"><circle class="dot" cx="104" cy="250" r="3.6"/><text x="112" y="253">Rutland</text></g>
+        <g class="town" data-town="Brattleboro" tabindex="0" role="button" aria-label="Brattleboro, 3 hr from the church"><circle class="dot" cx="168" cy="372" r="3.6"/><text x="176" y="375">Brattleboro</text></g>
+
+        <g id="pin">
+          <circle class="pin-ripple" cx="78" cy="108" r="7"/>
+          <circle class="pin-ripple b" cx="78" cy="108" r="7"/>
+          <circle class="pin-core" cx="78" cy="108" r="5.6"/>
+          <text class="pin-label" x="88" y="105">St. Albans</text>
+          <text class="vt-edge" x="88" y="115" style="letter-spacing:.1em">The church</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div></section>
+
+<section id="pew" data-page="visit" style="padding-top:0"><div class="wrap">
+  <div class="split wide" style="margin-bottom:34px">
+    <div>
+      <p class="lbl">Optional, free, four seconds</p>
+      <h2>Choose your pew</h2>
+      <p class="lede">If knowing where you will sit makes walking in easier, pick a spot now. There is no account, no payment, and no one will approach you because of it &mdash; we will just leave a bulletin on the seat.</p>
+    </div>
+    <div><div class="arch" style="height:250px"><img class="arch-img" src="data:image/jpeg;base64,__POTLUCK__" alt="Members of the congregation at a monthly potluck"></div></div>
+  </div>
+  <div class="pews">
+    <div class="chancel">Chancel &middot; Organ &amp; Choir</div>
+    <div id="pewmap"></div>
+    <p class="pewnote" id="pewnote">Pick any pew. Nobody is watching, and you can change your mind on Sunday.</p>
+  </div>
+</div></section>
+
+<section id="give" data-page="give" style="padding-top:0"><div class="wrap">
+  <div class="give">
+    <span class="demoflag">Demo only &mdash; no payment is processed</span>
+    <div class="split">
+      <div>
+        <p class="lbl">Giving</p>
+        <h2 style="margin-bottom:14px">Keeping the lights on and the clock wound</h2>
+        <p class="sm" style="max-width:46ch">Giving pays the heat, the organ maintenance, and the building that houses the art club, the blood drives and the AA meetings. Nobody is ever asked to give during a service.</p>
+      </div>
+      <div>
+        <p class="lbl" style="margin-bottom:6px">Choose an amount</p>
+        <div class="amts" id="amts">
+          <button class="amt" type="button" aria-pressed="false">$25</button>
+          <button class="amt" type="button" aria-pressed="false">$50</button>
+          <button class="amt" type="button" aria-pressed="false">$100</button>
+          <button class="amt" type="button" aria-pressed="false">Other</button>
+        </div>
+        <button class="btn honeyb" type="button" id="givebtn">Continue</button>
+        <p class="xs" style="margin-top:14px" id="givenote">One screen, no account, no login. In the live build this hands off to a payment provider.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section data-page="photos" style="padding-top:0"><div class="wrap">
+  <p class="lbl">The building &amp; the people in it</p>
+  <h2 style="margin-bottom:28px">Photographs</h2>
+  <div class="gal">
+    <div class="arch"><img class="arch-img" src="data:image/jpeg;base64,__CHOIR__" alt="The choir at Easter"></div>
+    <div class="arch"><img class="arch-img" src="data:image/jpeg;base64,__CHRISTMAS__" alt="The sanctuary decorated for Christmas"></div>
+    <div class="arch"><img class="arch-img" src="data:image/jpeg;base64,__PICNIC__" alt="A church picnic on the green"></div>
+    <div class="arch"><img class="arch-img" src="data:image/jpeg;base64,__PASTOR__" alt="Pastor Jessica with her dog"></div>
+  </div>
+  <p class="xs" style="margin-top:16px">All 58 photographs recovered from the current site. The gallery page presents them properly, with the wedding and building-use images separated out for people booking the space.</p>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div>
+      <h3>First Congregational Church</h3>
+      <p>27 Church Street<br>Saint Albans, Vermont 05478</p>
+      <p style="margin-top:12px">(802) 524-4555<br><a href="mailto:info@firstcongregationalstalbans.org">info@firstcongregationalstalbans.org</a></p>
+      <p style="margin-top:12px;color:var(--footer-muted);font-size:13px">An Open &amp; Affirming congregation of the United Church of Christ. All persons are invited to fully share in the life of this church.</p>
+    </div>
+    <div>
+      <h3>Sundays</h3>
+      <p>Worship at 10:00am</p>
+      <p>Coffee hour afterwards</p>
+      <p>Broadcast on Channel 1079<br>Sundays at 4:00pm</p>
+      <p style="margin-top:12px">Office: Tuesday&ndash;Friday<br>9:00am &ndash; 2:00pm</p>
+    </div>
+    <div>
+      <h3>Weekly bulletin</h3>
+      <p style="margin-bottom:14px">The bulletin and announcements, by email each week.</p>
+      <a class="btn sm" href="#/visit" data-go="visit">Join the list</a>
+      <p style="margin-top:16px;font-size:13px;color:var(--footer-muted)">Use the building for a wedding, meeting or gathering &mdash; the Sanctuary seats 350.</p>
+    </div>
+  </div>
+  <div class="fbot">
+    <p style="margin:0">Concept redesign, 18 August 2026. Photographs and quoted text belong to the church. Not an endorsed or commissioned work.</p>
+  </div>
+</div></footer>
+
+
+<script>
+(function(){
+  /* ---- Router: one document, several pages ---- */
+  var PAGES={home:'First Congregational Church, St. Albans',
+             sunday:'Your first Sunday',music:'Music \u0026 the organ',
+             programs:'What is on all year',visit:'Finding us',
+             photos:'Photographs',give:'Giving'};
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function pageFromHash(){
+    var m=(location.hash||'').replace(/^#\/?/,'').trim();
+    return PAGES[m]?m:'home';
+  }
+  function route(){
+    var pg=pageFromHash();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-page]'),function(el){
+      var on=el.getAttribute('data-page').split(/\s+/).indexOf(pg)>-1;
+      el.hidden=!on;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-go]'),function(a){
+      var on=a.getAttribute('data-go')===pg;
+      if(a.closest('nav')) a.setAttribute('aria-current',on?'page':'false');
+    });
+    document.title=PAGES[pg]==='First Congregational Church, St. Albans'
+      ? 'First Congregational Church, St. Albans'
+      : PAGES[pg]+' \u2014 First Congregational Church';
+    window.scrollTo(0,0);
+    if(pg==='home'||pg==='visit') drawMap();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-go]'),function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=a.getAttribute('data-go');
+      if(pageFromHash()===t){ window.scrollTo(0,0); return; }
+      location.hash='#/'+t;
+    });
+  });
+  window.addEventListener('hashchange',route);
+
+  /* ---- Vermont map ---- */
+  var mapDrawn=false;
+  function drawMap(){
+    var d=document.getElementById('vtdraw');
+    if(!d) return;
+    var svg=document.getElementById('vtmap');
+    if(reduce){ d.style.strokeDasharray='none'; d.style.strokeDashoffset='0'; svg.classList.remove('ani'); return; }
+    var L=d.getTotalLength();
+    d.style.transition='none';
+    d.style.strokeDasharray=L+' '+L;
+    d.style.strokeDashoffset=L;
+    svg.classList.remove('ani');
+    /* force reflow so the reset takes before the transition runs */
+    void d.getBoundingClientRect();
+    d.style.transition='stroke-dashoffset 2.1s cubic-bezier(.5,0,.2,1)';
+    d.style.strokeDashoffset='0';
+    window.setTimeout(function(){ svg.classList.add('ani'); }, mapDrawn?300:1400);
+    mapDrawn=true;
+  }
+  function highlight(name){
+    Array.prototype.forEach.call(document.querySelectorAll('[data-town]'),function(el){
+      el.classList.toggle('on', el.getAttribute('data-town')===name);
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-town]'),function(el){
+    var n=el.getAttribute('data-town');
+    ['mouseenter','focus'].forEach(function(ev){ el.addEventListener(ev,function(){highlight(n);}); });
+    ['mouseleave','blur'].forEach(function(ev){ el.addEventListener(ev,function(){highlight(null);}); });
+    el.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); highlight(n); }
+    });
+  });
+
+  /* ---- Seasonal hero: automatic by date, admin can override ---- */
+  var SEASONS=['spring','summer','autumn','winter'];
+  var LABEL={auto:'Automatic \u2014 follows the date',spring:'Spring',summer:'Summer',autumn:'Autumn',winter:'Winter'};
+  var EYE={
+    spring:'Open &amp; Affirming &middot; Since 1893',
+    summer:'Open &amp; Affirming &middot; Since 1893',
+    autumn:'Concert season begins &middot; Sounds of the Season',
+    winter:'Christmas Eve &middot; Everyone welcome'
+  };
+  /* Stroke icons, sized by CSS, inheriting the button colour. */
+  var G='fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"';
+  var ICON={
+    auto:'<svg viewBox="0 0 24 24" aria-hidden="true"><g '+G+'><circle cx="12" cy="12" r="8.6"/><path d="M12 7.1V12l3.3 2"/></g></svg>',
+    spring:'<svg viewBox="0 0 24 24" aria-hidden="true"><g '+G+'><path d="M12 21v-7.4"/><path d="M12 13.6C8.6 13.6 6.4 11.4 6.4 8 9.8 8 12 10.2 12 13.6z"/><path d="M12 12.2c0-3.4 2.2-5.6 5.6-5.6 0 3.4-2.2 5.6-5.6 5.6z"/></g></svg>',
+    summer:'<svg viewBox="0 0 24 24" aria-hidden="true"><g '+G+'><circle cx="12" cy="12" r="4.1"/><path d="M12 2.4v2.2M12 19.4v2.2M2.4 12h2.2M19.4 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6"/></g></svg>',
+    autumn:'<svg viewBox="0 0 24 24" aria-hidden="true"><g '+G+'><path d="M4.6 20c-1.4-8 3.6-14.4 14.8-15.4C20.6 15.6 14 21 4.6 20z"/><path d="M4.6 20 14.2 10.4"/></g></svg>',
+    winter:'<svg viewBox="0 0 24 24" aria-hidden="true"><g '+G+'><path d="M12 2.6v18.8M3.9 7.3l16.2 9.4M20.1 7.3 3.9 16.7"/><path d="m9.6 4.7 2.4 2.3 2.4-2.3M9.6 19.3l2.4-2.3 2.4 2.3M4.5 10.9l.3 3.3M19.5 10.9l-.3 3.3"/></g></svg>'
+  };
+  function autoSeason(d){
+    var m=(d||new Date()).getMonth();
+    if(m<=1||m===11) return 'winter';
+    if(m<=4) return 'spring';
+    if(m<=7) return 'summer';
+    return 'autumn';
+  }
+  var override=null;
+  function current(){ return override||autoSeason(); }
+  function apply(){
+    var s=current();
+    SEASONS.forEach(function(k){
+      var el=document.getElementById('bg-'+k);
+      if(el) el.classList.toggle('on', k===s);
+    });
+    var eb=document.getElementById('eyebrow');
+    if(eb) eb.innerHTML=EYE[s];
+    Array.prototype.forEach.call(document.querySelectorAll('.seasonbtn'),function(b){
+      b.setAttribute('aria-pressed', String(b.dataset.s===(override||'auto')));
+    });
+    var live=document.getElementById('seasonlive');
+    if(live) live.textContent = override
+      ? LABEL[s]+', set manually.'
+      : LABEL[s].replace('Automatic','Automatic:')+' Currently '+s+'.';
+  }
+  var row=document.getElementById('seasonrow');
+  if(row){
+    ['auto'].concat(SEASONS).forEach(function(k){
+      var b=document.createElement('button');
+      b.className='seasonbtn'; b.type='button'; b.dataset.s=k;
+      b.innerHTML=ICON[k];
+      b.title = k==='auto' ? LABEL.auto : 'Show '+LABEL[k];
+      b.setAttribute('aria-label', b.title);
+      b.setAttribute('aria-pressed','false');
+      b.addEventListener('click',function(){ override = k==='auto'?null:k; apply(); });
+      row.appendChild(b);
+    });
+  }
+  apply();
+
+  /* ---- Pew picker ---- */
+  var map=document.getElementById('pewmap'),note=document.getElementById('pewnote');
+  if(map){
+    var picked=null;
+    for(let r=1;r<=10;r++){
+      var rw=document.createElement('div');rw.className='pewrow';
+      var rn=document.createElement('span');rn.className='rn';rn.textContent=r;rw.appendChild(rn);
+      [['L','left'],['R','right']].forEach(function(side,i){
+        var b=document.createElement('button');
+        b.className='pew';b.type='button';b.setAttribute('aria-pressed','false');
+        b.setAttribute('aria-label','Row '+r+', '+side[1]+' side');
+        b.addEventListener('click',function(){
+          if(picked&&picked!==b){picked.setAttribute('aria-pressed','false');picked.textContent='';}
+          var on=b.getAttribute('aria-pressed')==='true';
+          b.setAttribute('aria-pressed',on?'false':'true');
+          b.textContent=on?'':'You';
+          picked=on?null:b;
+          note.innerHTML=on
+            ? 'Pick any pew. Nobody is watching, and you can change your mind on Sunday.'
+            : 'Saved &mdash; <strong>row '+r+', '+side[1]+' side</strong>. We will leave a bulletin on the seat.';
+        });
+        rw.appendChild(b);
+        if(i===0){var a=document.createElement('span');a.className='aisle';rw.appendChild(a);}
+      });
+      map.appendChild(rw);
+    }
+  }
+
+  /* ---- Giving (demo) ---- */
+  var amts=document.getElementById('amts');
+  if(amts){
+    var sel=null;
+    Array.prototype.forEach.call(amts.querySelectorAll('.amt'),function(b){
+      b.addEventListener('click',function(){
+        if(sel&&sel!==b) sel.setAttribute('aria-pressed','false');
+        var on=b.getAttribute('aria-pressed')==='true';
+        b.setAttribute('aria-pressed',on?'false':'true');
+        sel=on?null:b;
+      });
+    });
+    document.getElementById('givebtn').addEventListener('click',function(){
+      document.getElementById('givenote').innerHTML= sel
+        ? '<strong>Demo only.</strong> A live build would hand '+sel.textContent+' to a payment provider here. Nothing has been charged.'
+        : '<strong>Demo only.</strong> Choose an amount to see the hand-off. Nothing is ever charged on this page.';
+    });
+  }
+
+  route();
+})();
+</script>
