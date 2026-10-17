@@ -8,6 +8,8 @@ Note: the repository is named `FirstBaptistChurch`, but the subject is First **C
 
 ---
 
+**Live:** https://first-baptist-church-virid.vercel.app — Vercel serves the two built HTML files as-is; there is no server code and no environment variables.
+
 ## Output
 
 | File | What it is |
